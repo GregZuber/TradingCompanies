@@ -2,7 +2,6 @@ package pl.agh.edu.companies.initialdata;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import pl.agh.edu.companies.entitiy.Company;
 import pl.agh.edu.companies.entitiy.CompanyType;
@@ -12,15 +11,11 @@ import pl.agh.edu.companies.entitiy.HistoryOfPrices;
 import pl.agh.edu.companies.entitiy.Market;
 import pl.agh.edu.companies.entitiy.Product;
 import pl.agh.edu.companies.entitiy.Production;
+import pl.agh.edu.companies.entitiy.Warehouse;
 
 public class InitialDataGenerator {
     private static final int NUMBER_OF_COMPANIES_OF_ONE_TYPE = 5;
     
-    /*public static void main(String[] args) {
-        InitialDataGenerator initialDataGenerator = new InitialDataGenerator();
-        initialDataGenerator.generateInitialData();
-    }*/
-
     public HistoryOfPrices prepareHistoryOfPrices() {
         HistoryOfPrices historyOfPrices = new HistoryOfPrices();
         
@@ -49,15 +44,23 @@ public class InitialDataGenerator {
         company.setFixedCosts(4000);
         Production production = generateProduction(companyType);
         company.setProduction(production);
-        List<Product> productsInWarehouse = new LinkedList<Product>();
-        company.setProductsInWarehouse(productsInWarehouse);
-        List<Double> inputSizes = new LinkedList<Double>();
-        inputSizes.add(20.0);
-        inputSizes.add(20.0);
-        inputSizes.add(20.0);
-        company.setWarehouseInputSizes(inputSizes);
-        company.setWarehouseOutputSize(20);
+        List<Warehouse> inputWarehouses = new LinkedList<Warehouse>();
+        if (companyType == CompanyType.PROCESSING) {
+            inputWarehouses.add(prepareWarehouse(0));
+            inputWarehouses.add(prepareWarehouse(1));
+            company.setInputWarehouses(inputWarehouses);
+        }
+        
+        company.setOutputWarehouse(prepareWarehouse(2));
         return company;
+    }
+
+    private Warehouse prepareWarehouse(int productId) {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setProductId(productId);
+        warehouse.setProductsInWarehouse(new LinkedList<Product>());
+        warehouse.setWarehouseSize(20.0);
+        return warehouse;
     }
 
     private Production generateProduction(CompanyType companyType) {

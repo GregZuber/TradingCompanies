@@ -3,21 +3,13 @@ package pl.agh.edu.companies.entitiy;
 import java.util.List;
 
 public class Company {
+    private int id;
     private double capital;
     private double fixedCosts;
-    private double warehouseOutputSize;
-    private List<Double> warehouseInputSizes;
-    private List<Product> productsInWarehouse;
+    private List<Warehouse> inputWarehouses;
+    private Warehouse outputWarehouse;
     private Production production;
     
-    private void addProductsToWarehouse(List<Product> products) {
-        
-    }
-    
-    private void removeProductsFromWarehouse(List<Product> products) {
-        
-    }
-
     public double getCapital() {
         return capital;
     }
@@ -34,14 +26,6 @@ public class Company {
         this.fixedCosts = fixedCosts;
     }
 
-    public List<Product> getProductsInWarehouse() {
-        return productsInWarehouse;
-    }
-
-    public void setProductsInWarehouse(List<Product> productsInWarehouse) {
-        this.productsInWarehouse = productsInWarehouse;
-    }
-
     public Production getProduction() {
         return production;
     }
@@ -50,20 +34,29 @@ public class Company {
         this.production = production;
     }
 
-    public double getWarehouseOutputSize() {
-        return warehouseOutputSize;
+    public int getId() {
+        return id;
     }
 
-    public void setWarehouseOutputSize(double warehouseOutputSize) {
-        this.warehouseOutputSize = warehouseOutputSize;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public List<Double> getWarehouseInputSizes() {
-        return warehouseInputSizes;
+    public List<Warehouse> getInputWarehouses() {
+        return inputWarehouses;
     }
 
-    public void setWarehouseInputSizes(List<Double> warehouseInputSizes) {
-        this.warehouseInputSizes = warehouseInputSizes;
+    public void setInputWarehouses(List<Warehouse> inputWarehouses) {
+        this.inputWarehouses = inputWarehouses;
     }
+
+    public Warehouse getOutputWarehouse() {
+        return outputWarehouse;
+    }
+
+    public void setOutputWarehouse(Warehouse outputWarehouse) {
+        this.outputWarehouse = outputWarehouse;
+    }
+    
     
 }

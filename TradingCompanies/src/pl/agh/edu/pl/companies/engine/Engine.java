@@ -6,7 +6,6 @@ import pl.agh.edu.companies.entitiy.Company;
 import pl.agh.edu.companies.entitiy.CompanyType;
 import pl.agh.edu.companies.entitiy.HistoryOfPrices;
 import pl.agh.edu.companies.entitiy.Market;
-import pl.agh.edu.companies.entitiy.Product;
 import pl.agh.edu.companies.initialdata.InitialDataGenerator;
 
 public class Engine {
@@ -45,9 +44,7 @@ public class Engine {
         updateMarketDemands();
     }
     private void decideWhatToSell(Company company) {
-        for (Product product : company.getProductsInWarehouse()) {
-            
-        }
+        
     }
     private void decideWhatToBuy(Company company) {
         
