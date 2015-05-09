@@ -6,25 +6,35 @@ import java.util.Random;
 
 import pl.agh.edu.companies.entitiy.Company;
 import pl.agh.edu.companies.entitiy.CompanyType;
+import pl.agh.edu.companies.entitiy.Demand;
+import pl.agh.edu.companies.entitiy.HistoryOfOneProductPrices;
+import pl.agh.edu.companies.entitiy.HistoryOfPrices;
+import pl.agh.edu.companies.entitiy.Market;
 import pl.agh.edu.companies.entitiy.Product;
 import pl.agh.edu.companies.entitiy.Production;
 
 public class InitialDataGenerator {
     private static final int NUMBER_OF_COMPANIES_OF_ONE_TYPE = 5;
-    private Random random = new Random();
     
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         InitialDataGenerator initialDataGenerator = new InitialDataGenerator();
         initialDataGenerator.generateInitialData();
-    }
+    }*/
 
-    private void generateInitialData() {
-        List<Company> miningCompanies = generateCompanies(CompanyType.MINING);
-        List<Company> processingCompanies = generateCompanies(CompanyType.PROCESSING);
-    }
+    public HistoryOfPrices prepareHistoryOfPrices() {
+        HistoryOfPrices historyOfPrices = new HistoryOfPrices();
         
+        HistoryOfOneProductPrices historyOfOneProductPrices = new HistoryOfOneProductPrices();
+        historyOfOneProductPrices.setProductId(0);
+        List<Double> averagePrices = new LinkedList<Double>();
+        averagePrices.add(400.0);
+        averagePrices.add(450.0);
+        averagePrices.add(425.0);
+        historyOfOneProductPrices.setAveragePrices(averagePrices);
+        return historyOfPrices;
+    }
 
-    private List<Company> generateCompanies(CompanyType companyType) {
+    public List<Company> generateCompanies(CompanyType companyType) {
         List<Company> companies = new LinkedList<Company>();
         for (int i = 0 ; i < NUMBER_OF_COMPANIES_OF_ONE_TYPE ; i++) {
             Company company = generateCompany(companyType);
@@ -65,5 +75,19 @@ public class InitialDataGenerator {
         }
         
         return neededProducts;
+    }
+    
+    public Market prepareMarket() {
+        Market market = new Market();
+        market.setDemands(prepareDemands());
+        return market;
+    }
+
+    private List<Demand> prepareDemands() {
+        List<Demand> demands = new LinkedList<Demand>();
+        Demand demand = new Demand();
+        demand.setDemandForProduct(20);
+        demand.setProductId(1);
+        return demands;
     }
 }

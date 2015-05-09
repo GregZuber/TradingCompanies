@@ -5,6 +5,7 @@ public class Product {
     private int durability;
     private int type;
     private double takenWarehouseSpace;
+    
     public double getPrice() {
         return price;
     }
