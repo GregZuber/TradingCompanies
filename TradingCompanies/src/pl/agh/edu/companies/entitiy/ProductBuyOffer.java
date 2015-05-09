@@ -4,6 +4,7 @@ public class ProductBuyOffer {
     private int productsId;
     private double productsQuantity;
     private double maxPriceForOneProduct;
+    private int companyId;
 
     public int getProductsId() {
         return productsId;
@@ -22,6 +23,12 @@ public class ProductBuyOffer {
     }
     public void setMaxPriceForOneProduct(double maxPriceForOneProduct) {
         this.maxPriceForOneProduct = maxPriceForOneProduct;
+    }
+    public int getCompanyId() {
+        return companyId;
+    }
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
     
 }

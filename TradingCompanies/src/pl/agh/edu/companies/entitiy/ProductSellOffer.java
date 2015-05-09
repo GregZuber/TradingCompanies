@@ -1,11 +1,10 @@
 package pl.agh.edu.companies.entitiy;
 
-import java.util.List;
-
 public class ProductSellOffer {
     private int productsId;
     private double productsQuantity;
     private double oneProductPrice;
+    private int companyId;
     
     public int getProductsId() {
         return productsId;
@@ -25,5 +24,13 @@ public class ProductSellOffer {
     public void setOneProductPrice(double oneProductPrice) {
         this.oneProductPrice = oneProductPrice;
     }
+    public int getCompanyId() {
+        return companyId;
+    }
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+    
+    
     
 }

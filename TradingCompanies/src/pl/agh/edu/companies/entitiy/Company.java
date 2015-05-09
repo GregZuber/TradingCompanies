@@ -5,7 +5,8 @@ import java.util.List;
 public class Company {
     private double capital;
     private double fixedCosts;
-    private double warehouseSize;
+    private double warehouseOutputSize;
+    private List<Double> warehouseInputSizes;
     private List<Product> productsInWarehouse;
     private Production production;
     
@@ -33,14 +34,6 @@ public class Company {
         this.fixedCosts = fixedCosts;
     }
 
-    public double getWarehouseSize() {
-        return warehouseSize;
-    }
-
-    public void setWarehouseSize(double warehouseSize) {
-        this.warehouseSize = warehouseSize;
-    }
-
     public List<Product> getProductsInWarehouse() {
         return productsInWarehouse;
     }
@@ -57,4 +50,20 @@ public class Company {
         this.production = production;
     }
 
+    public double getWarehouseOutputSize() {
+        return warehouseOutputSize;
+    }
+
+    public void setWarehouseOutputSize(double warehouseOutputSize) {
+        this.warehouseOutputSize = warehouseOutputSize;
+    }
+
+    public List<Double> getWarehouseInputSizes() {
+        return warehouseInputSizes;
+    }
+
+    public void setWarehouseInputSizes(List<Double> warehouseInputSizes) {
+        this.warehouseInputSizes = warehouseInputSizes;
+    }
+    
 }

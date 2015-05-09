@@ -51,7 +51,12 @@ public class InitialDataGenerator {
         company.setProduction(production);
         List<Product> productsInWarehouse = new LinkedList<Product>();
         company.setProductsInWarehouse(productsInWarehouse);
-        company.setWarehouseSize(20);
+        List<Double> inputSizes = new LinkedList<Double>();
+        inputSizes.add(20.0);
+        inputSizes.add(20.0);
+        inputSizes.add(20.0);
+        company.setWarehouseInputSizes(inputSizes);
+        company.setWarehouseOutputSize(20);
         return company;
     }
 
