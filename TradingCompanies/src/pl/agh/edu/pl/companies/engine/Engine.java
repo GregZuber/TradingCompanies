@@ -28,7 +28,7 @@ public class Engine {
         numberOfLastTour = 1000;
         for (tourNumber = 0 ; tourNumber < numberOfLastTour; tourNumber++){
             beginTour();
-            sellProducts();
+            
             endTour();
         }
     }
@@ -52,10 +52,14 @@ public class Engine {
     private void updateMarketDemands() {
         
     }
-    private void sellProducts() {
+    public void endTour() {
+        sellProductsForMarket();
+        sellProductsForCompanies();
+    }
+    private void sellProductsForMarket() {
         
     }
-    public void endTour() {
+    private void sellProductsForCompanies() {
         
     }
     public int getTourNumber() {
