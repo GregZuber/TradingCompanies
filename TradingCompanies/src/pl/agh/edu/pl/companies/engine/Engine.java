@@ -25,9 +25,34 @@ public class Engine {
     
     
     private void simulate() {
-        beginTour();
+        numberOfLastTour = 1000;
+        for (tourNumber = 0 ; tourNumber < numberOfLastTour; tourNumber++){
+            beginTour();
+            sellProducts();
+            endTour();
+        }
     }
     public void beginTour() {
+        for (Company company: miningCompanies) {
+            decideWhatToSell(company);
+            decideWhatToBuy(company);
+        }
+        for (Company company: processingCompanies) {
+            decideWhatToSell(company);
+            decideWhatToBuy(company);
+        }
+        updateMarketDemands();
+    }
+    private void decideWhatToSell(Company company) {
+        
+    }
+    private void decideWhatToBuy(Company company) {
+        
+    }
+    private void updateMarketDemands() {
+        
+    }
+    private void sellProducts() {
         
     }
     public void endTour() {
