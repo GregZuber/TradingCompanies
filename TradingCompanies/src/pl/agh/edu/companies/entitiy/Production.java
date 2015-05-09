@@ -3,16 +3,9 @@ package pl.agh.edu.companies.entitiy;
 import java.util.List;
 
 public class Production {
-    private double productionTime;
+    private double tourPartNeededToProductOneProduct;
     private List<Product> neededProducts;
     private double productionCost;
-    private double tourPartWhenProducted;
-    public double getProductionTime() {
-        return productionTime;
-    }
-    public void setProductionTime(double productionTime) {
-        this.productionTime = productionTime;
-    }
     public List<Product> getNeededProducts() {
         return neededProducts;
     }
@@ -25,11 +18,12 @@ public class Production {
     public void setProductionCost(double productionCost) {
         this.productionCost = productionCost;
     }
-    public double getTourPartWhenProducted() {
-        return tourPartWhenProducted;
+    public double getTourPartNeededToProductOneProduct() {
+        return tourPartNeededToProductOneProduct;
     }
-    public void setTourPartWhenProducted(double tourPartWhenProducted) {
-        this.tourPartWhenProducted = tourPartWhenProducted;
+    public void setTourPartNeededToProductOneProduct(
+            double tourPartNeededToProductOneProduct) {
+        this.tourPartNeededToProductOneProduct = tourPartNeededToProductOneProduct;
     }
     
 }
