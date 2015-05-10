@@ -52,6 +52,12 @@ public class Engine {
     public void endTour() {
         sellProductsForMarket();
         sellProductsForCompanies();
+        
+        // if company can produce, it produce
+        for (Company company:env.getCompanies()) {
+        	company.produce();
+        }
+        
         env.decay(); // durability of all items goes down
     }
     
