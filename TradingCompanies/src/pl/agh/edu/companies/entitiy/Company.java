@@ -3,60 +3,52 @@ package pl.agh.edu.companies.entitiy;
 import java.util.List;
 
 public class Company {
-    private int id;
-    private double capital;
-    private double fixedCosts;
-    private List<Warehouse> inputWarehouses;
-    private Warehouse outputWarehouse;
-    private Production production;
-    
-    public double getCapital() {
-        return capital;
-    }
+	private int id;
+	private double capital;
+	private double fixedCosts;
+	private double productionCost;
 
-    public void setCapital(double capital) {
-        this.capital = capital;
-    }
+	private List<InputWarehouse> inputWarehouses;
+	private OutputWarehouse outputWarehouse;
 
-    public double getFixedCosts() {
-        return fixedCosts;
-    }
+	public Company(int id, double capital, double fixedCosts, double productionCost) {
+		super();
+		this.id = id;
+		this.capital = capital;
+		this.fixedCosts = fixedCosts;
+		this.productionCost = productionCost;
+	}
 
-    public void setFixedCosts(double fixedCosts) {
-        this.fixedCosts = fixedCosts;
-    }
+	public double getProductionCost() {
+		return productionCost;
+	}
 
-    public Production getProduction() {
-        return production;
-    }
+	public double getCapital() {
+		return capital;
+	}
 
-    public void setProduction(Production production) {
-        this.production = production;
-    }
+	public double getFixedCosts() {
+		return fixedCosts;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public List<InputWarehouse> getInputWarehouses() {
+		return inputWarehouses;
+	}
 
-    public List<Warehouse> getInputWarehouses() {
-        return inputWarehouses;
-    }
+	public void setInputWarehouses(List<InputWarehouse> inputWarehouses) {
+		this.inputWarehouses = inputWarehouses;
+	}
 
-    public void setInputWarehouses(List<Warehouse> inputWarehouses) {
-        this.inputWarehouses = inputWarehouses;
-    }
+	public OutputWarehouse getOutputWarehouse() {
+		return outputWarehouse;
+	}
 
-    public Warehouse getOutputWarehouse() {
-        return outputWarehouse;
-    }
+	public void setOutputWarehouse(OutputWarehouse outputWarehouse) {
+		this.outputWarehouse = outputWarehouse;
+	}
 
-    public void setOutputWarehouse(Warehouse outputWarehouse) {
-        this.outputWarehouse = outputWarehouse;
-    }
-    
-    
 }
