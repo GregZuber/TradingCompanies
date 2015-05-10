@@ -51,4 +51,22 @@ public class Company {
 		this.outputWarehouse = outputWarehouse;
 	}
 
+	public boolean canProduce() {
+		boolean success = true;
+		for(InputWarehouse warehouse:getInputWarehouses()) {
+			success = success  && warehouse.canConsume();
+		}
+		
+		return success;
+	}
+	
+	public void produce() {
+		if (canProduce()) {
+			for(InputWarehouse warehouse:getInputWarehouses()) {
+				warehouse.consume();
+			}
+			
+			getOutputWarehouse().produce();
+		}
+	}
 }
