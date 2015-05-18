@@ -6,12 +6,12 @@ import java.util.List;
 
 public class OutputWarehouse extends Warehouse {
 	private int productionDurability;
-	private List<SellTransaction> transactions;
+	private List<ProductSellOffer> transactions;
 	public OutputWarehouse(int productId, int capacity, int productionDelta,
 			int productionDurability) {
 		super(productId, capacity, productionDelta);
 		this.productionDurability = productionDurability;
-		this.transactions = new ArrayList<SellTransaction>();
+		this.transactions = new ArrayList<ProductSellOffer>();
 	}
 
 	public void produce() {
@@ -31,11 +31,11 @@ public class OutputWarehouse extends Warehouse {
 		Collections.sort(this.productDurabilities);
 	}
 	
-	public void addHistoricalData(SellTransaction transaction) {
+	public void addHistoricalData(ProductSellOffer transaction) {
 		this.transactions.add(transaction);
 	}
 
-	public List<SellTransaction> getTransactions() {
+	public List<ProductSellOffer> getTransactions() {
 		return transactions;
 	}
 }

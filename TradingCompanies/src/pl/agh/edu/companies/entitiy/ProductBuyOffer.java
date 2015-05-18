@@ -3,7 +3,21 @@ package pl.agh.edu.companies.entitiy;
 public class ProductBuyOffer {
     private int productsId;
     private int productsQuantity;
+	private int boughtQuantity;
     private double maxPriceForOneProduct;
+    public int getBoughtQuantity() {
+		return boughtQuantity;
+	}
+	public void setBoughtQuantity(int boughtQuantity) {
+		this.boughtQuantity = boughtQuantity;
+	}
+	public double getRealBuyPrice() {
+		return realBuyPrice;
+	}
+	public void setRealBuyPrice(double realBuyPrice) {
+		this.realBuyPrice = realBuyPrice;
+	}
+	private double realBuyPrice;
     private int companyId;
 
     public int getProductsId() {
