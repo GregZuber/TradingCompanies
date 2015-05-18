@@ -82,10 +82,25 @@ public class Engine {
             List<ProductSellOffer> offers = offersService.getProductSellOffersById(productId);
             Collections.sort(offers);
             for (ProductSellOffer offer : offers) {
-                offer.getProductsQuantity();
+                if (demand.getDemandForProduct() > fullfilledDemand + offer.getProductsQuantity()) {
+                    int fullfilledDemandInThisStep = demand.getDemandForProduct() - fullfilledDemand;
+                    serveSell(offer.getCompanyId(), productId, fullfilledDemandInThisStep);
+                    break;
+                } else if (demand.getDemandForProduct() == fullfilledDemand + offer.getProductsQuantity()){
+                    break;
+                } else {
+                    serveSell(offer.getCompanyId(), productId, offer.getProductsQuantity());
+                    fullfilledDemand += offer.getProductsQuantity();
+                }
+                
             }
         }
     }
+    private void serveSell(int companyId, int productId, int quantityOfProduct) {
+        Company company = env.getCompanyById(companyId);
+    }
+
+
     private void sellProductsForCompanies() {
         
     }

@@ -2,7 +2,7 @@ package pl.agh.edu.companies.entitiy;
 
 public class ProductSellOffer implements Comparable<ProductSellOffer>{
     private int productsId;
-    private double productsQuantity;
+    private int productsQuantity;
     private double oneProductPrice;
     private int companyId;
     
@@ -11,12 +11,6 @@ public class ProductSellOffer implements Comparable<ProductSellOffer>{
     }
     public void setProductsId(int productsId) {
         this.productsId = productsId;
-    }
-    public double getProductsQuantity() {
-        return productsQuantity;
-    }
-    public void setProductsQuantity(double productsQuantity) {
-        this.productsQuantity = productsQuantity;
     }
     public double getOneProductPrice() {
         return oneProductPrice;
@@ -39,6 +33,12 @@ public class ProductSellOffer implements Comparable<ProductSellOffer>{
         } else {
             return -1;
         }
+    }
+    public int getProductsQuantity() {
+        return productsQuantity;
+    }
+    public void setProductsQuantity(int productsQuantity) {
+        this.productsQuantity = productsQuantity;
     }
     
 }

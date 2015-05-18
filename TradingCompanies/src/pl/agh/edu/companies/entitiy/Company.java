@@ -69,4 +69,5 @@ public class Company {
 			getOutputWarehouse().produce();
 		}
 	}
+	
 }

@@ -22,6 +22,15 @@ public class Environment {
 	public void setMarket(Market market) {
 		this.market = market;
 	}
+	
+	public Company getCompanyById(int companyId) {
+	    for (Company company : companies) {
+	        if (company.getId() == companyId) {
+	            return company;
+	        }
+	    }
+	    return null;
+	}
 
 	public List<Company> getCompanies() {
 		return companies;
