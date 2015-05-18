@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class InputWarehouse extends Warehouse {
-	private List<BuyTransaction> transactions;
+	private List<ProductBuyOffer> transactions;
 	
 	public InputWarehouse(int productId, int capacity, int productionDelta) {
 		super(productId, capacity, productionDelta);
 
-		this.transactions = new ArrayList<BuyTransaction>();
+		this.transactions = new ArrayList<ProductBuyOffer>();
 	}
 	
 	public boolean canConsume() {
@@ -34,8 +34,12 @@ public class InputWarehouse extends Warehouse {
 		}
 	}
 	
-	public void addHistoricalData(BuyTransaction transaction) {
+	public void addHistoricalData(ProductBuyOffer transaction) {
 		transactions.add(transaction);
+	}
+
+	public List<ProductBuyOffer> getTransactions() {
+		return transactions;
 	}
 
 }
