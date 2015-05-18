@@ -11,7 +11,7 @@ public class ExampleBuyingStrategy implements BuyingStrategy {
 	@Override
 	public List<ProductBuyOffer> generateBuyOffers(Environment env, Company c) {
 		
-			
+		
 		return null;
 	}
 
