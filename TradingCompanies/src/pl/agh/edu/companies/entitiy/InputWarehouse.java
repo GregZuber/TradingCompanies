@@ -29,5 +29,9 @@ public class InputWarehouse extends Warehouse {
 			this.addProduct(productDurabilities.get(i));
 		}
 	}
+	
+	public void addHistoricalData(BuyTransaction transaction) {
+		
+	}
 
 }

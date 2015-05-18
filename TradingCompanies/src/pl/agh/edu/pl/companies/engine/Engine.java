@@ -52,6 +52,10 @@ public class Engine {
         
     }
     private void decideWhatToBuy(Company company) {
+        if (company.getInputWarehouses().size() == 0) {
+        	return;
+        }
+        
         
     }
     
