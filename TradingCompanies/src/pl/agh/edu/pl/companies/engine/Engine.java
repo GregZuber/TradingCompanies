@@ -1,26 +1,33 @@
 package pl.agh.edu.pl.companies.engine;
 
-import pl.agh.edu.companies.entitiy.Company;
-import pl.agh.edu.companies.entitiy.Environment;
+import java.util.Collections;
+import java.util.List;
 
+import pl.agh.edu.companies.entitiy.Company;
+import pl.agh.edu.companies.entitiy.Demand;
+import pl.agh.edu.companies.entitiy.Environment;
+import pl.agh.edu.companies.entitiy.Market;
+import pl.agh.edu.companies.entitiy.ProductSellOffer;
 import pl.agh.edu.companies.initialdata.Environments;
 
 public class Engine {
     private int turnNumber;
     private int totalTurns;
     private Environment env;
+    private OffersService offersService;
     
     
-    public Engine(Environment env, int turns) {
+    public Engine(Environment env, int turns, OffersService offersService) {
 		super();
 		this.env = env;
 		this.turnNumber = 0;
 		this.totalTurns = turns;
+		this.offersService = offersService;
 	}
 
 
 	public static void main(String[] args) {
-        Engine engine = new Engine(Environments.getSampleEnvironment(), 1000);
+        Engine engine = new Engine(Environments.getSampleEnvironment(), 1000, OffersService.getOffersServiceInstance());
         engine.simulate();
     }
     
@@ -62,7 +69,17 @@ public class Engine {
     }
     
     private void sellProductsForMarket() {
+        Market market = env.getMarket();
+        List<Demand> demands = market.getDemands();
         
+        for (Demand demand : demands) {
+            int productId = demand.getProductId();
+            List<ProductSellOffer> offers = offersService.getProductSellOffersById(productId);
+            Collections.sort(offers);
+            for (ProductSellOffer offer : offers) {
+                
+            }
+        }
     }
     private void sellProductsForCompanies() {
         

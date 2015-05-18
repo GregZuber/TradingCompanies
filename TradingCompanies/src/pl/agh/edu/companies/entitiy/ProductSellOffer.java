@@ -1,6 +1,6 @@
 package pl.agh.edu.companies.entitiy;
 
-public class ProductSellOffer {
+public class ProductSellOffer implements Comparable<ProductSellOffer>{
     private int productsId;
     private double productsQuantity;
     private double oneProductPrice;
@@ -30,7 +30,15 @@ public class ProductSellOffer {
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
-    
-    
+    public int compareTo(ProductSellOffer offer)
+    {
+        if (oneProductPrice > offer.getOneProductPrice()) {
+            return 1;
+        } else if (oneProductPrice == offer.getOneProductPrice()) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
     
 }
