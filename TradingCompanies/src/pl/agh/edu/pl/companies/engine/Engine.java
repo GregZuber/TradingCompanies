@@ -10,7 +10,6 @@ import pl.agh.edu.companies.entitiy.Environment;
 import pl.agh.edu.companies.entitiy.Market;
 import pl.agh.edu.companies.entitiy.OutputWarehouse;
 import pl.agh.edu.companies.entitiy.ProductSellOffer;
-import pl.agh.edu.companies.entitiy.SellTransaction;
 import pl.agh.edu.companies.initialdata.Environments;
 
 public class Engine {
@@ -81,24 +80,29 @@ public class Engine {
         List<Demand> demands = market.getDemands();
         
         for (Demand demand : demands) {
-            int fullfilledDemand = 0;
             int productId = demand.getProductId();
             List<ProductSellOffer> offers = offersService.getProductSellOffersById(productId);
             Collections.sort(offers);
-            for (ProductSellOffer offer : offers) {
-                if (demand.getDemandForProduct() > fullfilledDemand + offer.getProductsQuantity()) {
-                    int fullfilledDemandInThisStep = demand.getDemandForProduct() - fullfilledDemand;
-                    serveSell(offer, fullfilledDemandInThisStep);
-                    break;
-                } else if (demand.getDemandForProduct() == fullfilledDemand + offer.getProductsQuantity()){
-                    break;
-                } else {
-                    serveSell(offer, offer.getProductsQuantity());
-                    fullfilledDemand += offer.getProductsQuantity();
-                }
-            }
+            sellProducts(demand, offers);
         }
     }
+    private void sellProducts(Demand demand, List<ProductSellOffer> offers) {
+        int fullfilledDemand = 0;
+        for (ProductSellOffer offer : offers) {
+            if (demand.getDemandForProduct() > fullfilledDemand + offer.getProductsQuantity()) {
+                int fullfilledDemandInThisStep = demand.getDemandForProduct() - fullfilledDemand;
+                serveSell(offer, fullfilledDemandInThisStep);
+                break;
+            } else if (demand.getDemandForProduct() == fullfilledDemand + offer.getProductsQuantity()){
+                break;
+            } else {
+                serveSell(offer, offer.getProductsQuantity());
+                fullfilledDemand += offer.getProductsQuantity();
+            }
+        }        
+    }
+
+
     private void serveSell(ProductSellOffer offer,
             int quantity) {
         Company company = env.getCompanyById(offer.getCompanyId());
@@ -119,8 +123,9 @@ public class Engine {
 
     private void addTransaction(ProductSellOffer offer, int quantity) {
         OutputWarehouse outputWarehouse = env.getCompanyById(offer.getCompanyId()).getOutputWarehouse();
-        List<SellTransaction> transactions = outputWarehouse.getTransactions();
-        transactions.get(transactions.size()-1);
+        List<ProductSellOffer> transactions = outputWarehouse.getTransactions();
+        ProductSellOffer productSellOffer = transactions.get(transactions.size()-1);
+        productSellOffer.setSoldQuantity(quantity);
     }
     
 
