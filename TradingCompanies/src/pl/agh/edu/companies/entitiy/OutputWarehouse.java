@@ -28,4 +28,8 @@ public class OutputWarehouse extends Warehouse {
 		
 		Collections.sort(this.productDurabilities);
 	}
+	
+	public void addHistoricalData(SellTransaction transaction) {
+		
+	}
 }
