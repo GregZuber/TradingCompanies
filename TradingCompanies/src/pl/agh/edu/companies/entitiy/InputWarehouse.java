@@ -1,12 +1,16 @@
 package pl.agh.edu.companies.entitiy;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class InputWarehouse extends Warehouse {
-
+	private List<BuyTransaction> transactions;
+	
 	public InputWarehouse(int productId, int capacity, int productionDelta) {
 		super(productId, capacity, productionDelta);
+
+		this.transactions = new ArrayList<BuyTransaction>();
 	}
 	
 	public boolean canConsume() {
@@ -31,7 +35,7 @@ public class InputWarehouse extends Warehouse {
 	}
 	
 	public void addHistoricalData(BuyTransaction transaction) {
-		
+		transactions.add(transaction);
 	}
 
 }
