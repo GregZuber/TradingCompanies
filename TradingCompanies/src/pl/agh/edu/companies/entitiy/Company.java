@@ -5,7 +5,7 @@ import java.util.List;
 public class Company {
 	private int id;
 	private double capital;
-	private double fixedCosts;
+    private double fixedCosts;
 	private double productionCost;
 
 	private List<InputWarehouse> inputWarehouses;
@@ -26,6 +26,10 @@ public class Company {
 	public double getCapital() {
 		return capital;
 	}
+	
+	public void setCapital(double capital) {
+        this.capital = capital;
+    }
 
 	public double getFixedCosts() {
 		return fixedCosts;
