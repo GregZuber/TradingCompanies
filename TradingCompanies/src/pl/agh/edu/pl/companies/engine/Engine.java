@@ -73,11 +73,12 @@ public class Engine {
         List<Demand> demands = market.getDemands();
         
         for (Demand demand : demands) {
+            int fullfilledDemand = 0;
             int productId = demand.getProductId();
             List<ProductSellOffer> offers = offersService.getProductSellOffersById(productId);
             Collections.sort(offers);
             for (ProductSellOffer offer : offers) {
-                
+                offer.getProductsQuantity();
             }
         }
     }
