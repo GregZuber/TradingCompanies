@@ -46,6 +46,15 @@ public class Company {
 	public void setInputWarehouses(List<InputWarehouse> inputWarehouses) {
 		this.inputWarehouses = inputWarehouses;
 	}
+	
+	public InputWarehouse getInputWarehouseByProductId(int productId) {
+	    for (InputWarehouse inputWarehouse : inputWarehouses) {
+	        if (inputWarehouse.getProductId() == productId) {
+	            return inputWarehouse;
+	        }
+	    }
+	    return null;
+    }
 
 	public OutputWarehouse getOutputWarehouse() {
 		return outputWarehouse;

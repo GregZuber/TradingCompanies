@@ -2,6 +2,7 @@ package pl.agh.edu.companies.entitiy;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class OutputWarehouse extends Warehouse {
@@ -20,15 +21,20 @@ public class OutputWarehouse extends Warehouse {
 		}
 	}
 
-	public void removeSoldItems(List<Integer> indexes) {
+	public List<Integer> removeSoldItems(List<Integer> indexes) {
 		Collections.sort(indexes);
 		Collections.reverse(indexes);
-		
+
+		List<Integer> productsDurabilities = new LinkedList<Integer>();
+
 		for (int i=0;i<indexes.size();i++) {
+			productsDurabilities.add(indexes.get(i));
 			this.productDurabilities.remove(indexes.get(i));
 		}
 		
 		Collections.sort(this.productDurabilities);
+
+		return productsDurabilities;
 	}
 	
 	public void addHistoricalData(ProductSellOffer transaction) {

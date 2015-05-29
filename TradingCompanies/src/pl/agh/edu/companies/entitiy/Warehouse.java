@@ -63,5 +63,8 @@ public abstract class Warehouse {
 		return this.productDurabilities.size();
 	}
 
-	
+    public int getProductId() {
+        return productId;
+    }
+
 }
