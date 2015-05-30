@@ -9,4 +9,5 @@ import pl.agh.edu.companies.entitiy.ProductBuyOffer;
 public interface BuyingStrategy {
 	public List<ProductBuyOffer> generateBuyOffers(Environment env, Company c);
 	
+	
 }
