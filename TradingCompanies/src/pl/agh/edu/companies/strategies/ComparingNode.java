@@ -2,7 +2,7 @@ package pl.agh.edu.companies.strategies;
 
 import java.util.HashMap;
 
-public class PriceComparingNode implements Node {
+public class ComparingNode implements Node {
 	private Node negative;
 	private Node positive;
 	private String first;
@@ -10,17 +10,18 @@ public class PriceComparingNode implements Node {
 	private String second;
 	private Double param;
 	
-	public PriceComparingNode(String first, String comparator, String second, Double param) {
+	public ComparingNode(String first, String comparator, String second, Double param) {
 		this.first = first;
 		this.comparator = comparator;
 		this.second = second;
 		this.param = param;
 	}
 	
-	public PriceComparingNode(String first, String comparator, String second) {
+	public ComparingNode(String first, String comparator, String second) {
 		this(first, comparator, second, 1.0);
 	}
 	
+	// should work both for integer and double variables
 	public Node getNext(HashMap<String, Object> variables) {
 		boolean outcome = false;
 		switch (this.comparator) {
@@ -64,5 +65,17 @@ public class PriceComparingNode implements Node {
 	public void setPositive(Node node) {
 		this.positive = node;
 		
+	}
+
+	@Override
+	public double getPrice(HashMap<String, Object> variables) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAmount(HashMap<String, Object> variables) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

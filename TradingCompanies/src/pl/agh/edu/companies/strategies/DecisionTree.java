@@ -29,10 +29,22 @@ public class DecisionTree {
 		this.rootNode = rootNode;
 	}
 
-	public double evaluate(HashMap<String, Object> input) {
+	public double getPrice(HashMap<String, Object> input) {
+		Node node = this.rootNode;
+		while (!node.isLast()) {
+			node = node.getNext(input);
+		}
 		
-		return 0.0;
+		return node.getPrice(input);
 	}
-	
+	public int getAmount(HashMap<String, Object> input) {
+		
+		Node node = this.rootNode;
+		while (!node.isLast()) {
+			node = node.getNext(input);
+		}
+		
+		return node.getAmount(input);
+	}
 	
 }
