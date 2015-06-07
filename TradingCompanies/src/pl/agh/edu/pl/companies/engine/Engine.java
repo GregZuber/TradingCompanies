@@ -57,22 +57,31 @@ public class Engine {
         env.getMarket().update();
     }
     
+    // TODO: this won't work until we add body to some strategies and assing them in Environments class
     private ProductPriceQuantity decideWhatToSell(Company company) {
-    	ProductPriceQuantity sellOffer = new ProductPriceQuantity(company.getId(), company.getOutputWarehouse().getProductId(), 0,0);
-        company.getSellingHistory().addProposedOffer(0, 0);
+    	int productId =  company.getOutputWarehouse().getProductId();
+    	int quantity = company.getOutputQuantityPolicy().getQuantity(company, productId, env);
+    	double price = company.getOutputPricePolicy().getPrice(company, productId, env);
+    	
+    	
+    	ProductPriceQuantity sellOffer = new ProductPriceQuantity(company.getId(), company.getOutputWarehouse().getProductId(), price,quantity);
+        company.getSellingHistory().addProposedOffer(price,quantity);
     	return sellOffer;
     }
-    
+
+    // TODO: this won't work until we add body to some strategies and assing them in Environments class
     private List<ProductPriceQuantity> decideWhatToBuy(Company company) {
     	List<ProductPriceQuantity> offers = new ArrayList<ProductPriceQuantity>();
     	if (company.getInputWarehouses() != null) {
     		for (Warehouse warehouse : company.getInputWarehouses()) {
-    			ProductPriceQuantity buyOffer = new ProductPriceQuantity(company.getId(), warehouse.getProductId(), 0,0);
-    			company.getBuyingHistoryByProductId(warehouse.getProductId()).addProposedOffer(0, 0);
+    			int productId = warehouse.getProductId();
+    			double price = company.getInputPricePolicy().getPrice(company, productId, env);
+    			int quantity = company.getInputQuantityPolicy().getQuantity(company, productId, env);
+    			ProductPriceQuantity buyOffer = new ProductPriceQuantity(company.getId(), productId, price,quantity);
+    			company.getBuyingHistoryByProductId(warehouse.getProductId()).addProposedOffer(price, quantity);
     			
     			
     			offers.add(buyOffer);
-    		    
     		}
     	}
     	

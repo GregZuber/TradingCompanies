@@ -3,6 +3,7 @@ package pl.agh.edu.companies.strategies;
 import pl.agh.edu.companies.entitiy.Company;
 import pl.agh.edu.companies.entitiy.Environment;
 
+// podobny scenariusz jak w polityce kupowania
 public class ProportionalToTransactionsSellPricePolicy implements IPricePolicy {
 
 	@Override

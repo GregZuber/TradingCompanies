@@ -12,6 +12,7 @@ import pl.agh.edu.companies.entitiy.Market;
 import pl.agh.edu.companies.entitiy.Warehouse;
 
 public class Environments {
+	// TODO: we need to add here also input and output price and quantity policies
 	private static List<Company> getProducers() {
 		// id, capital, fixedCost
 		Company producer1 = new Company(0, 10000.0, 100.0);
@@ -41,6 +42,7 @@ public class Environments {
 		
 	}
 	
+	// TODO: we need to add here also input and output price and quantity policies
 	private static List<Company> getConverters() {
 		int productId = 2;
 		// id, capital, fixedCost, productionCost

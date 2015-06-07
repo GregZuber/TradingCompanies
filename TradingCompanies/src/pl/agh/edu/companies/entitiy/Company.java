@@ -3,6 +3,9 @@ package pl.agh.edu.companies.entitiy;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.agh.edu.companies.strategies.IPricePolicy;
+import pl.agh.edu.companies.strategies.IQuantityPolicy;
+
 public class Company {
 	private int id;
 	private double capital;
@@ -12,6 +15,42 @@ public class Company {
 	private List<History> buyingHistory = new ArrayList<History>();
 	private Warehouse outputWarehouse;
 	private History sellingHistory;
+	private IPricePolicy inputPricePolicy;
+	private IPricePolicy outputPricePolicy;
+	private IQuantityPolicy inputQuantityPolicy;
+	private IQuantityPolicy outputQuantityPolicy;
+	
+	public IPricePolicy getInputPricePolicy() {
+		return inputPricePolicy;
+	}
+
+	public void setInputPricePolicy(IPricePolicy inputPricePolicy) {
+		this.inputPricePolicy = inputPricePolicy;
+	}
+
+	public IPricePolicy getOutputPricePolicy() {
+		return outputPricePolicy;
+	}
+
+	public void setOutputPricePolicy(IPricePolicy outputPricePolicy) {
+		this.outputPricePolicy = outputPricePolicy;
+	}
+
+	public IQuantityPolicy getInputQuantityPolicy() {
+		return inputQuantityPolicy;
+	}
+
+	public void setInputQuantityPolicy(IQuantityPolicy inputQuantityPolicy) {
+		this.inputQuantityPolicy = inputQuantityPolicy;
+	}
+
+	public IQuantityPolicy getOutputQuantityPolicy() {
+		return outputQuantityPolicy;
+	}
+
+	public void setOutputQuantityPolicy(IQuantityPolicy outputQuantityPolicy) {
+		this.outputQuantityPolicy = outputQuantityPolicy;
+	}
 
 	public History getSellingHistory() {
 		return sellingHistory;
