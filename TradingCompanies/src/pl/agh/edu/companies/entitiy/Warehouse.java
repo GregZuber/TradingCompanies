@@ -1,69 +1,39 @@
 package pl.agh.edu.companies.entitiy;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+public class Warehouse {
+	private int productId;
+	private int capacity = 10;
+	private int productCount = 0;
 
-public abstract class Warehouse {
-	protected int productId;
-	protected int productionDelta;
-	protected int productionDurability;
-	protected int capacity;
-	protected List<Integer> productDurabilities;
-
-	public Warehouse(int productId, int capacity, int productionDelta) {
+	public Warehouse(int productId) {
 		super();
 		this.productId = productId;
-		this.productionDelta = productionDelta;
-		this.capacity = capacity;
-		this.productDurabilities = new ArrayList<Integer>();
 	}
 
-	// if adding product when full then replace product with lowest durability
-	protected void addProduct(int newProductDurability) {
-		Collections.sort(this.productDurabilities);
-		if (this.productDurabilities.size() >= this.capacity) {
-			this.productDurabilities.set(0, newProductDurability);
-		} else {
-			this.productDurabilities.add(newProductDurability);
+	public void addProducts(int quantity) {
+		this.productCount+=quantity;
+		if (this.productCount > this.capacity) {
+			this.productCount = this.capacity;
 		}
-
-		Collections.sort(this.productDurabilities);
+		
 	}
 
-	public void durabilityDecay() {
-		Integer itemToRemove = 1;
-		// remove all items with one durability
-		while (this.productDurabilities.remove(itemToRemove)) {
-
+	public void removeProducts(int quantity) {
+		this.productCount -= quantity;
+		if (this.productCount < 0) {
+			this.productCount = 0;
 		}
-		// remove one durability from all other items
-		for (int i = 0; i < this.productDurabilities.size(); i++) {
-			this.productDurabilities
-					.set(i, this.productDurabilities.get(i) - 1);
-		}
-
-		Collections.sort(this.productDurabilities);
-	}
-
-	public List<Integer> getProductDurabilities() {
-		return productDurabilities;
-	}
-
-	
-	public int getCapacity() {
-		return capacity;
 	}
 	
-	public int getProductionDelta() {
-		return productionDelta;
+	public boolean isEmpty() {
+		return productCount == 0;
+	}
+	
+    public int getProductCount() {
+		return productCount;
 	}
 
-	public int getNumberOfProducts() {
-		return this.productDurabilities.size();
-	}
-
-    public int getProductId() {
+	public int getProductId() {
         return productId;
     }
 

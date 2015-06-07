@@ -8,28 +8,27 @@ import pl.agh.edu.companies.entitiy.Demand;
 import pl.agh.edu.companies.entitiy.Environment;
 import pl.agh.edu.companies.entitiy.HistoryOfOneProductPrices;
 import pl.agh.edu.companies.entitiy.HistoryOfPrices;
-import pl.agh.edu.companies.entitiy.InputWarehouse;
 import pl.agh.edu.companies.entitiy.Market;
-import pl.agh.edu.companies.entitiy.OutputWarehouse;
+import pl.agh.edu.companies.entitiy.Warehouse;
 
 public class Environments {
 	private static List<Company> getProducers() {
-		// id, capital, fixedCost, productionCost
-		Company producer1 = new Company(0, 10000.0, 10.0,100.0);
-		producer1.setOutputWarehouse(new OutputWarehouse(0, 10,2,10));
+		// id, capital, fixedCost
+		Company producer1 = new Company(0, 10000.0, 100.0);
+		producer1.setOutputWarehouse(new Warehouse(0));
 		producer1.setInputWarehouses(null); // none required
 		
-		Company producer2 = new Company(1,8000.0,10.0,40.0);
-		producer2.setOutputWarehouse(new OutputWarehouse(0, 10,1,10));
+		Company producer2 = new Company(1,8000.0,40.0);
+		producer2.setOutputWarehouse(new Warehouse(0));
 		producer2.setInputWarehouses(null); // none required
 
-		Company producer3 = new Company(2,20000.0,20.0,200.0);
-		producer3.setOutputWarehouse(new OutputWarehouse(1, 20,2,10));
+		Company producer3 = new Company(2,20000.0,20.0);
+		producer3.setOutputWarehouse(new Warehouse(1));
 		producer3.setInputWarehouses(null); // none required
 
 		
-		Company producer4 = new Company(3,16000.0,20.0,80.0);
-		producer4.setOutputWarehouse(new OutputWarehouse(1, 10,1,10));
+		Company producer4 = new Company(3,16000.0,80.0);
+		producer4.setOutputWarehouse(new Warehouse(1));
 		producer4.setInputWarehouses(null); // none required
 		
 		ArrayList<Company> producers = new ArrayList<Company>();
@@ -45,21 +44,21 @@ public class Environments {
 	private static List<Company> getConverters() {
 		int productId = 2;
 		// id, capital, fixedCost, productionCost
-		Company converter1 = new Company(4,16000.0,20.0,80.0);
-		converter1.setOutputWarehouse(new OutputWarehouse(productId, 10,1,10));
+		Company converter1 = new Company(4,16000.0,20.0);
+		converter1.setOutputWarehouse(new Warehouse(productId));
 		
-		ArrayList<InputWarehouse> firstInputWarehouses = new ArrayList<InputWarehouse>();
-		firstInputWarehouses.add(new InputWarehouse(0, 10, 1));
-		firstInputWarehouses.add(new InputWarehouse(1, 10, 1));
+		ArrayList<Warehouse> firstInputWarehouses = new ArrayList<Warehouse>();
+		firstInputWarehouses.add(new Warehouse(0));
+		firstInputWarehouses.add(new Warehouse(1));
 		converter1.setInputWarehouses(firstInputWarehouses);
 		
 		// id, capital, fixedCost, productionCost
-		Company converter2 = new Company(5,16000.0,20.0,80.0);
-		converter2.setOutputWarehouse(new OutputWarehouse(productId, 10,1,10));
+		Company converter2 = new Company(5,16000.0,20.0);
+		converter2.setOutputWarehouse(new Warehouse(productId));
 		
-		ArrayList<InputWarehouse> secondInputWarehouses = new ArrayList<InputWarehouse>();
-		secondInputWarehouses.add(new InputWarehouse(0, 10, 1));
-		secondInputWarehouses.add(new InputWarehouse(1, 10, 1));
+		ArrayList<Warehouse> secondInputWarehouses = new ArrayList<Warehouse>();
+		secondInputWarehouses.add(new Warehouse(0));
+		secondInputWarehouses.add(new Warehouse(1));
 		converter2.setInputWarehouses(secondInputWarehouses);
 
 		ArrayList<Company> producers = new ArrayList<Company>();
@@ -75,13 +74,8 @@ public class Environments {
 		
 		Demand demand = new Demand(2);
 		demand.setPrice(300.0);		
-		demand.setDemandForProduct(10);
-		
-		demand.setLowerDemandBound(2);
-		demand.setLowDemandBonus(0.1); // when demand is smaller than 2  then price gets smaller by 10%
-		
-		demand.setHighDemandBonus(0.5);
-		demand.setUpperDemandBound(20); // when demand is higher than 20  then price gets larger by 20%
+		demand.setMaxPriceChange(10);
+
 		market.addDemand(demand);
 		
 		return market;

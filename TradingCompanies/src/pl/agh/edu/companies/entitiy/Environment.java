@@ -40,14 +40,4 @@ public class Environment {
 		this.companies = companies;
 	}
 	
-	public void decay() {
-		for (Company company:getCompanies()) {
-			company.getOutputWarehouse().durabilityDecay();
-			for (InputWarehouse warehouse:company.getInputWarehouses()) {
-				warehouse.durabilityDecay();
-			}
-		}
-		
-	}
-	
 }

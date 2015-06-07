@@ -1,26 +1,39 @@
 package pl.agh.edu.companies.entitiy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Company {
 	private int id;
 	private double capital;
-    private double fixedCosts;
-	private double productionCost;
+	private double turnCost;
 
-	private List<InputWarehouse> inputWarehouses;
-	private OutputWarehouse outputWarehouse;
+	private List<Warehouse> inputWarehouses;
+	private List<History> buyingHistory = new ArrayList<History>();
+	private Warehouse outputWarehouse;
+	private History sellingHistory;
 
-	public Company(int id, double capital, double fixedCosts, double productionCost) {
+	public History getSellingHistory() {
+		return sellingHistory;
+	}
+
+	public void setSellingHistory(History sellingHistory) {
+		this.sellingHistory = sellingHistory;
+	}
+
+	public List<History> getBuyingHistory() {
+		return buyingHistory;
+	}
+
+	public Company(int id, double capital, double turnCost) {
 		super();
 		this.id = id;
 		this.capital = capital;
-		this.fixedCosts = fixedCosts;
-		this.productionCost = productionCost;
+		this.turnCost = turnCost;
 	}
 
-	public double getProductionCost() {
-		return productionCost;
+	public double getTurnCost() {
+		return turnCost;
 	}
 
 	public double getCapital() {
@@ -31,55 +44,74 @@ public class Company {
         this.capital = capital;
     }
 
-	public double getFixedCosts() {
-		return fixedCosts;
-	}
-
 	public int getId() {
 		return id;
 	}
 
-	public List<InputWarehouse> getInputWarehouses() {
+	public List<Warehouse> getInputWarehouses() {
 		return inputWarehouses;
 	}
 
-	public void setInputWarehouses(List<InputWarehouse> inputWarehouses) {
+	public void setInputWarehouses(List<Warehouse> inputWarehouses) {
 		this.inputWarehouses = inputWarehouses;
+		if (this.inputWarehouses != null) {
+			for (Warehouse warehouse : inputWarehouses) {
+				this.buyingHistory.add(new History(this.getId(),warehouse.getProductId()));
+			}
+		}
+		
 	}
 	
-	public InputWarehouse getInputWarehouseByProductId(int productId) {
-	    for (InputWarehouse inputWarehouse : inputWarehouses) {
+	public Warehouse getInputWarehouseByProductId(int productId) {
+	    for (Warehouse inputWarehouse : inputWarehouses) {
 	        if (inputWarehouse.getProductId() == productId) {
 	            return inputWarehouse;
 	        }
 	    }
 	    return null;
     }
+	
+	public History getBuyingHistoryByProductId(int productId) {
+	    for (History single : buyingHistory) {
+	        if (single.getProductId() == productId) {
+	            return single;
+	        }
+	    }
+	    return null;
+    }
 
-	public OutputWarehouse getOutputWarehouse() {
+	public Warehouse getOutputWarehouse() {
 		return outputWarehouse;
 	}
 
-	public void setOutputWarehouse(OutputWarehouse outputWarehouse) {
+	public void setOutputWarehouse(Warehouse outputWarehouse) {
 		this.outputWarehouse = outputWarehouse;
+		this.sellingHistory = new History(this.getId(),outputWarehouse.getProductId());
 	}
 
 	public boolean canProduce() {
 		boolean success = true;
-		for(InputWarehouse warehouse:getInputWarehouses()) {
-			success = success  && warehouse.canConsume();
+		if (getInputWarehouses() != null) {
+			for(Warehouse warehouse:getInputWarehouses()) {
+				success = success  && !warehouse.isEmpty();
+			}
+			
 		}
+		
 		
 		return success;
 	}
 	
 	public void produce() {
+		this.capital -= this.turnCost;
 		if (canProduce()) {
-			for(InputWarehouse warehouse:getInputWarehouses()) {
-				warehouse.consume();
+			if (getInputWarehouses() != null) {
+				for(Warehouse warehouse:getInputWarehouses()) {
+					warehouse.removeProducts(1);
+				}
 			}
 			
-			getOutputWarehouse().produce();
+			getOutputWarehouse().addProducts(1);
 		}
 	}
 	
