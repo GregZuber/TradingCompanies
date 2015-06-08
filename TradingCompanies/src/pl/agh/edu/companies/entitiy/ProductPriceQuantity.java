@@ -5,8 +5,18 @@ public class ProductPriceQuantity implements Comparable<ProductPriceQuantity>{
     private int productsId;
     private double price;
     private int quantity;
+    private boolean used = false;
     
-    public ProductPriceQuantity(int companyId, int productsId, double price,
+    
+    public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
+	}
+
+	public ProductPriceQuantity(int companyId, int productsId, double price,
 			int quantity) {
 		super();
 		this.companyId = companyId;

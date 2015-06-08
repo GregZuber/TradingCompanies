@@ -200,8 +200,15 @@ public class Engine {
         
         // sell offers are sorted by price in ascending order
         for (ProductPriceQuantity sellOffer : sellOffers) {
+        	// je¿eli oferta sprzeda¿y zosta³a wykorzystana przez inna ofertê kupna
+        	if (sellOffer.isUsed()) {
+        		continue;
+        	}
+        	
         	// je¿eli cena sprzeda¿y jest wy¿sza od ceny kupna
         	// to nie ma ¿adnej transakcji
+        	
+        	
         	if (sellOffer.getPrice() > buyOffer.getPrice()) {
         		sellOfferRejected(sellOffer);
         	} else if (sellOffer.getQuantity() == 0) {
@@ -256,6 +263,7 @@ public class Engine {
     
     private void serveSellToCompany(ProductPriceQuantity buyOffer, ProductPriceQuantity sellOffer, int quantity) {
         // dodaj pieni¹dze, usuñ produkty
+    	sellOffer.setUsed(true);
     	Company seller = env.getCompanyById(sellOffer.getCompanyId());
         seller.setCapital(seller.getCapital() + quantity * sellOffer.getPrice());
         removeSoldItems(seller, quantity);
