@@ -13,8 +13,8 @@ public class SellEverythingQuantityPolicy implements IQuantityPolicy {
 	
 	@Override
 	public int getQuantity(Company company, int productId, Environment env) {
-		if (company.getInputWarehouseByProductId(productId).getProductCount() > level) {
-			return company.getInputWarehouseByProductId(productId).getProductCount();
+		if (company.getOutputWarehouse().getProductCount() > level) {
+			return company.getOutputWarehouse().getProductCount();
 		}
 		
 		return 0;

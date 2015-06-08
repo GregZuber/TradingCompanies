@@ -77,7 +77,7 @@ public class Environments {
 		converter2.setOutputPricePolicy(new ProportionalToTransactionsSellPricePolicy(6,0.15,0.15));
 		converter2.setOutputQuantityPolicy(new SellEverythingQuantityPolicy(4));
 		converter2.setInputPricePolicy(new ProportionalToWarehousePricePolicy(3,0.15,0.15));
-		converter1.setInputQuantityPolicy(new FillUpQuantityPolicy(6));
+		converter2.setInputQuantityPolicy(new FillUpQuantityPolicy(6));
 		
 		ArrayList<Warehouse> secondInputWarehouses = new ArrayList<Warehouse>();
 		secondInputWarehouses.add(new Warehouse(0));

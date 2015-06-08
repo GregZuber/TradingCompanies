@@ -32,7 +32,7 @@ public class HistoryOfOneProductPrices {
     }
     
     public Double getLastNonZero() {
-    	for (int i = averagePrices.size()-1;i<0;i--) {
+    	for (int i = averagePrices.size()-1;i>=0;i--) {
     		if (averagePrices.get(i) > 0.0) {
     			return averagePrices.get(i);
     		}
