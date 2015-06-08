@@ -13,5 +13,15 @@ public class HistoryOfPrices {
         this.productsPrices = productsPrices;
     }
     
+    public HistoryOfOneProductPrices GetHistoryByProductId(int id) {
+    	for (HistoryOfOneProductPrices history : getProductsPrices()) {
+    		if (history.getProductId() == id) {
+    			return history;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
     
 }

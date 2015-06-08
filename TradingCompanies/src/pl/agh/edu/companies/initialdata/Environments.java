@@ -10,26 +10,39 @@ import pl.agh.edu.companies.entitiy.HistoryOfOneProductPrices;
 import pl.agh.edu.companies.entitiy.HistoryOfPrices;
 import pl.agh.edu.companies.entitiy.Market;
 import pl.agh.edu.companies.entitiy.Warehouse;
+import pl.agh.edu.companies.strategies.FillUpQuantityPolicy;
+import pl.agh.edu.companies.strategies.ProportionalToTransactionsSellPricePolicy;
+import pl.agh.edu.companies.strategies.ProportionalToWarehousePricePolicy;
+import pl.agh.edu.companies.strategies.SellEverythingQuantityPolicy;
 
 public class Environments {
 	// TODO: we need to add here also input and output price and quantity policies
 	private static List<Company> getProducers() {
 		// id, capital, fixedCost
-		Company producer1 = new Company(0, 10000.0, 100.0);
+		Company producer1 = new Company(0, 10000.0, 30.0);
 		producer1.setOutputWarehouse(new Warehouse(0));
+		producer1.setOutputPricePolicy(new ProportionalToTransactionsSellPricePolicy(6,0.2,0.2));
+		producer1.setOutputQuantityPolicy(new SellEverythingQuantityPolicy(5));
 		producer1.setInputWarehouses(null); // none required
 		
 		Company producer2 = new Company(1,8000.0,40.0);
 		producer2.setOutputWarehouse(new Warehouse(0));
+		producer2.setOutputPricePolicy(new ProportionalToTransactionsSellPricePolicy(6,0.2,0.2));
+
+		producer2.setOutputQuantityPolicy(new SellEverythingQuantityPolicy(4));
 		producer2.setInputWarehouses(null); // none required
 
 		Company producer3 = new Company(2,20000.0,20.0);
 		producer3.setOutputWarehouse(new Warehouse(1));
+		producer3.setOutputPricePolicy(new ProportionalToTransactionsSellPricePolicy(6,0.2,0.2));
+		producer3.setOutputQuantityPolicy(new SellEverythingQuantityPolicy(3));
 		producer3.setInputWarehouses(null); // none required
 
 		
-		Company producer4 = new Company(3,16000.0,80.0);
+		Company producer4 = new Company(3,16000.0,30.0);
 		producer4.setOutputWarehouse(new Warehouse(1));
+		producer4.setOutputPricePolicy(new ProportionalToTransactionsSellPricePolicy(6,0.2,0.2));
+		producer4.setOutputQuantityPolicy(new SellEverythingQuantityPolicy(4));
 		producer4.setInputWarehouses(null); // none required
 		
 		ArrayList<Company> producers = new ArrayList<Company>();
@@ -48,6 +61,10 @@ public class Environments {
 		// id, capital, fixedCost, productionCost
 		Company converter1 = new Company(4,16000.0,20.0);
 		converter1.setOutputWarehouse(new Warehouse(productId));
+		converter1.setOutputPricePolicy(new ProportionalToTransactionsSellPricePolicy(6,0.2,0.2));
+		converter1.setOutputQuantityPolicy(new SellEverythingQuantityPolicy(3));
+		converter1.setInputPricePolicy(new ProportionalToWarehousePricePolicy(3,0.15,0.15));
+		converter1.setInputQuantityPolicy(new FillUpQuantityPolicy(6));
 		
 		ArrayList<Warehouse> firstInputWarehouses = new ArrayList<Warehouse>();
 		firstInputWarehouses.add(new Warehouse(0));
@@ -57,6 +74,10 @@ public class Environments {
 		// id, capital, fixedCost, productionCost
 		Company converter2 = new Company(5,16000.0,20.0);
 		converter2.setOutputWarehouse(new Warehouse(productId));
+		converter2.setOutputPricePolicy(new ProportionalToTransactionsSellPricePolicy(6,0.15,0.15));
+		converter2.setOutputQuantityPolicy(new SellEverythingQuantityPolicy(4));
+		converter2.setInputPricePolicy(new ProportionalToWarehousePricePolicy(3,0.15,0.15));
+		converter1.setInputQuantityPolicy(new FillUpQuantityPolicy(6));
 		
 		ArrayList<Warehouse> secondInputWarehouses = new ArrayList<Warehouse>();
 		secondInputWarehouses.add(new Warehouse(0));
