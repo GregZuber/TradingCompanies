@@ -3,6 +3,16 @@
   <groupId>TradingCompanies</groupId>
   <artifactId>TradingCompanies</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.0.19</version>
+    </dependency>
+
+  </dependencies>
+
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -16,4 +26,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>

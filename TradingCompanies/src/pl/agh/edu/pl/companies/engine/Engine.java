@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import pl.agh.edu.chart.ChartsPrinter;
 import pl.agh.edu.companies.entitiy.Company;
 import pl.agh.edu.companies.entitiy.Demand;
 import pl.agh.edu.companies.entitiy.Environment;
@@ -19,7 +20,8 @@ public class Engine {
     private int turnNumber;
     private int totalTurns;
     private Environment env;
-    private OffersService offersService;  
+    private OffersService offersService;
+    private ChartsPrinter chartsPrinter;
     
     public Engine(Environment env, int turns, OffersService offersService) {
 		super();
@@ -27,6 +29,10 @@ public class Engine {
 		this.turnNumber = 0;
 		this.totalTurns = turns;
 		this.offersService = offersService;
+        //this.chartsPrinter = new ChartsPrinter();
+        //this.chartsPrinter.prepareCompaniesChart();
+        String[] stringTable = {};
+        ChartsPrinter.main(stringTable);
 	}
 
 	public static void main(String[] args) {
@@ -60,8 +66,8 @@ public class Engine {
     // TODO: this won't work until we add body to some strategies and assing them in Environments class
     private ProductPriceQuantity decideWhatToSell(Company company) {
     	int productId =  company.getOutputWarehouse().getProductId();
-    	int quantity = company.getOutputQuantityPolicy().getQuantity(company, productId, env);
-    	double price = company.getOutputPricePolicy().getPrice(company, productId, env);
+    	int quantity = 10;//company.getOutputQuantityPolicy().getQuantity(company, productId, env);
+    	double price = 10;//company.getOutputPricePolicy().getPrice(company, productId, env);
     	
     	
     	ProductPriceQuantity sellOffer = new ProductPriceQuantity(company.getId(), company.getOutputWarehouse().getProductId(), price,quantity);
@@ -75,8 +81,8 @@ public class Engine {
     	if (company.getInputWarehouses() != null) {
     		for (Warehouse warehouse : company.getInputWarehouses()) {
     			int productId = warehouse.getProductId();
-    			double price = company.getInputPricePolicy().getPrice(company, productId, env);
-    			int quantity = company.getInputQuantityPolicy().getQuantity(company, productId, env);
+    			double price = 10;//company.getInputPricePolicy().getPrice(company, productId, env);
+    			int quantity = 10;//company.getInputQuantityPolicy().getQuantity(company, productId, env);
     			ProductPriceQuantity buyOffer = new ProductPriceQuantity(company.getId(), productId, price,quantity);
     			company.getBuyingHistoryByProductId(warehouse.getProductId()).addProposedOffer(price, quantity);
     			
@@ -91,17 +97,22 @@ public class Engine {
     public void endTour() {
         sellProductsForMarket();
         sellProductsForCompanies();
-        
+
+        System.out.println(turnNumber+ " ##########");
+
         // if company can produce, it produce
         for (Company company:env.getCompanies()) {
         	company.produce();
+            System.out.println(company.getId() +  " " + company.getCapital());
         }
+
+        //chartsPrinter.printCompanies(env.getCompanies());
         
         updateHistoryOfPrices();
     }
 
 	private void updateHistoryOfPrices() {
-		// teraz trzeba dodaæ dodawanie œredniej ceny z ostatniej tury
+		// teraz trzeba dodaï¿½ dodawanie ï¿½redniej ceny z ostatniej tury
         for (HistoryOfOneProductPrices hist:env.getHistory().getProductsPrices()) {
         	int productId = hist.getProductId();
         	double accumulatedPrice = 0.0;
@@ -153,8 +164,8 @@ public class Engine {
         Market market = env.getMarket();
         List<Demand> demands = market.getDemands();
         
-        // tutaj s¹ jedynie produkty koñcowe, nie uczestnicz¹ce w wymianie pomiêdzy firmami
-        // inaczej mo¿na bêdzie jedn¹ ofert¹ sprzedawaæ dwa razy
+        // tutaj sï¿½ jedynie produkty koï¿½cowe, nie uczestniczï¿½ce w wymianie pomiï¿½dzy firmami
+        // inaczej moï¿½na bï¿½dzie jednï¿½ ofertï¿½ sprzedawaï¿½ dwa razy
         for (Demand demand : demands) {
             List<ProductPriceQuantity> offers = offersService.getProductSellOffersById(demand.getProductId());
             Collections.sort(offers);
@@ -163,10 +174,10 @@ public class Engine {
     }
     
     // podobne do sellProductsToCompany, tylko nie ma dodawanej transakcji zakupu przez rynek
-    // jak ma to miejsce przy zakupie przez firmê
+    // jak ma to miejsce przy zakupie przez firmï¿½
     private void sellProductsToMarket(Demand demand, List<ProductPriceQuantity> offers) {
         for (ProductPriceQuantity sellOffer : offers) {
-        	// je¿eli cena jest wy¿sza od tej jak¹ rynek jest w stanie zap³aciæ, to oferta jest odrzucona
+        	// jeï¿½eli cena jest wyï¿½sza od tej jakï¿½ rynek jest w stanie zapï¿½aciï¿½, to oferta jest odrzucona
         	if (sellOffer.getPrice() > demand.getPrice()) {
         		sellOfferRejected(sellOffer);
         	}
@@ -184,12 +195,12 @@ public class Engine {
         List<ProductPriceQuantity> productBuyOffers = offersService.getProductBuyOffers();
         Collections.shuffle(productBuyOffers);
         
-        // i próbujemy po kolei ka¿d¹ spe³niæ
+        // i prï¿½bujemy po kolei kaï¿½dï¿½ speï¿½niï¿½
         for (ProductPriceQuantity buyOffer : productBuyOffers) {
             int productsId = buyOffer.getProductsId();
             List<ProductPriceQuantity> sellOffers = offersService.getProductSellOffersById(productsId);
             Collections.sort(sellOffers);
-            // matchujemy produkty ze sob¹
+            // matchujemy produkty ze sobï¿½
             sellProducts(buyOffer, sellOffers);
         }
     }
@@ -200,13 +211,13 @@ public class Engine {
         
         // sell offers are sorted by price in ascending order
         for (ProductPriceQuantity sellOffer : sellOffers) {
-        	// je¿eli oferta sprzeda¿y zosta³a wykorzystana przez inna ofertê kupna
+        	// jeï¿½eli oferta sprzedaï¿½y zostaï¿½a wykorzystana przez inna ofertï¿½ kupna
         	if (sellOffer.isUsed()) {
         		continue;
         	}
         	
-        	// je¿eli cena sprzeda¿y jest wy¿sza od ceny kupna
-        	// to nie ma ¿adnej transakcji
+        	// jeï¿½eli cena sprzedaï¿½y jest wyï¿½sza od ceny kupna
+        	// to nie ma ï¿½adnej transakcji
         	
         	
         	if (sellOffer.getPrice() > buyOffer.getPrice()) {
@@ -214,22 +225,22 @@ public class Engine {
         	} else if (sellOffer.getQuantity() == 0) {
         		sellOfferRejected(sellOffer);
         	}
-        	// je¿eli nasze potrzeby jeszcze nie s¹ spe³nione
+        	// jeï¿½eli nasze potrzeby jeszcze nie sï¿½ speï¿½nione
         	// kupujemy wszystko
         	else if (buyOffer.getQuantity() > fullfilledDemand + sellOffer.getQuantity()) {
             	fullfilledDemand += sellOffer.getQuantity();
             	payedMoney += sellOffer.getQuantity() * sellOffer.getPrice();
                 serveSellToCompany(buyOffer, sellOffer, sellOffer.getQuantity());
-            // je¿eli nasze potrzeby s¹ spe³nione na styk
+            // jeï¿½eli nasze potrzeby sï¿½ speï¿½nione na styk
             // kupujemy wszystko
             } else if (buyOffer.getQuantity() == fullfilledDemand + sellOffer.getQuantity()){
             	serveSellToCompany(buyOffer, sellOffer, sellOffer.getQuantity());
             	payedMoney += sellOffer.getQuantity() * sellOffer.getPrice();
             	fullfilledDemand = buyOffer.getQuantity();
-            // je¿eli nasz demand jest ju¿ fullfilled, pozosta³e oferty odrzucamy
+            // jeï¿½eli nasz demand jest juï¿½ fullfilled, pozostaï¿½e oferty odrzucamy
             } else if (buyOffer.getQuantity() == fullfilledDemand){
             	sellOfferRejected(sellOffer);
-            // je¿eli podana oferta daje nawet wiêcej ni¿ potrzebujemy
+            // jeï¿½eli podana oferta daje nawet wiï¿½cej niï¿½ potrzebujemy
             // bierzemy tylko tyle ile potrzebujemy
             } else {
             	int fullfilledThisTurn = buyOffer.getQuantity() - fullfilledDemand;
@@ -238,8 +249,8 @@ public class Engine {
                 fullfilledDemand = buyOffer.getQuantity();
             }            
         }
-        
-        
+
+
         addBuyTranscation(buyOffer, fullfilledDemand, payedMoney); 
     }
 
@@ -262,18 +273,18 @@ public class Engine {
     }
     
     private void serveSellToCompany(ProductPriceQuantity buyOffer, ProductPriceQuantity sellOffer, int quantity) {
-        // dodaj pieni¹dze, usuñ produkty
+        // dodaj pieniï¿½dze, usuï¿½ produkty
     	sellOffer.setUsed(true);
     	Company seller = env.getCompanyById(sellOffer.getCompanyId());
         seller.setCapital(seller.getCapital() + quantity * sellOffer.getPrice());
         removeSoldItems(seller, quantity);
         
-        // dodaj produkty, usuñ pieni¹dze
+        // dodaj produkty, usuï¿½ pieniï¿½dze
         Company buyer = env.getCompanyById(buyOffer.getCompanyId());
         buyer.setCapital(buyer.getCapital() - quantity * sellOffer.getPrice());
         addBoughtItems(buyer, quantity, buyOffer.getProductsId());
         
-        // dodaj skoñczone transakcje
+        // dodaj skoï¿½czone transakcje
         addSellTransaction(sellOffer, quantity);
     }
     
