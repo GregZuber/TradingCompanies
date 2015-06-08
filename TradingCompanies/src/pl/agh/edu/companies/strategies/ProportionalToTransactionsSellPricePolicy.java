@@ -29,6 +29,7 @@ public class ProportionalToTransactionsSellPricePolicy implements IPricePolicy {
 		// ostatnia transakcja jest uznana za udan¹, je¿eli cokolwiek kupiliœmy
 		// chyba, ¿e nie chcieliœmy nic kupowaæ
 		boolean lastSuccesful = false;
+		
 		if (transactions.size() > 0) {
 			lastSuccesful = transactions.get(transactions.size() - 1)
 					.getQuantity() > 0;
