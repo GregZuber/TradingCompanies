@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -38,10 +39,13 @@ public class ChartsPrinter extends ApplicationFrame {
     private static final int FAST = 100;
     private static final int SLOW = FAST * 5;
     private static final Random random = new Random();
+    private final List<Company> companies;
     private Timer timer;
+    private int turnNumber = 0;
 
-    public ChartsPrinter(final String title) {
+    public ChartsPrinter(final String title, List<Company> companies) {
         super(title);
+        this.companies = companies;
         final DynamicTimeSeriesCollection dataset =
                 new DynamicTimeSeriesCollection(1, COUNT, new Second());
         dataset.setTimeBase(new Second(0, 0, 0, 1, 1, 2011));
@@ -130,7 +134,21 @@ public class ChartsPrinter extends ApplicationFrame {
 
             @Override
             public void run() {
-                ChartsPrinter demo = new ChartsPrinter(TITLE);
+                ChartsPrinter demo = new ChartsPrinter(TITLE, null);
+                demo.pack();
+                RefineryUtilities.centerFrameOnScreen(demo);
+                demo.setVisible(true);
+                demo.start();
+            }
+        });
+    }
+
+    public static void printForCompanies(final List<Company> companies) {
+        EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                ChartsPrinter demo = new ChartsPrinter(TITLE, companies);
                 demo.pack();
                 RefineryUtilities.centerFrameOnScreen(demo);
                 demo.setVisible(true);
