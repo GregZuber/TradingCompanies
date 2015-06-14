@@ -45,4 +45,10 @@ public class OffersService {
 		return offersToReturn;
 	}
 
+	public void clearOffers() {
+		this.productBuyOffers =  new LinkedList<ProductPriceQuantity>();
+		this.productSellOffers =  new LinkedList<ProductPriceQuantity>();
+		
+	}
+
 }

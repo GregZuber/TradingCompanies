@@ -30,7 +30,7 @@ public class Engine {
 	}
 
 	public static void main(String[] args) {
-        Engine engine = new Engine(Environments.getSampleEnvironment(), 1000, OffersService.getOffersServiceInstance());
+        Engine engine = new Engine(Environments.getSampleEnvironment(), 20, OffersService.getOffersServiceInstance());
         engine.simulate();
     }
     
@@ -38,10 +38,45 @@ public class Engine {
         for (turnNumber = 0 ; turnNumber < totalTurns; turnNumber++){
             beginTour();
             endTour();
+            System.out.println("Turn number: " + turnNumber);
+            System.out.println("===============");
+            for (HistoryOfOneProductPrices history : this.env.getHistory().getProductsPrices()) {
+            	System.out.println(history.getProductId() + " " + history.getLastNonZero());
+            	System.out.println("======buys=========");
+            	for (ProductPriceQuantity s : this.offersService.getProductBuyOffers()) {
+            		System.out.println(s.getCompanyId() + " " + s.getProductsId() + " " + s.getPrice());
+            	}
+            	System.out.println("=======sells========");
+            	for (ProductPriceQuantity s : this.offersService.getProductSellOffers()) {
+            		System.out.println(s.getCompanyId() + " " +s.getProductsId() + " " + s.getPrice());
+            	}
+            }
+            
+            System.out.println("===============");
+            for (Company company : this.env.getCompanies()) {
+            	printCompanyState(company);
+            }
+            
+            this.offersService.clearOffers();
         }
     }
     
-    public void beginTour() {
+    private void printCompanyState(Company company) {
+		System.out.println("Company id:" + company.getId());
+		System.out.println("Company capital: " + company.getCapital());
+		List<Warehouse> inputWarehouses = company.getInputWarehouses();
+		if (inputWarehouses != null) {
+			for (Warehouse warehouse: inputWarehouses) {
+				System.out.println("Company input " +warehouse.getProductId()  + " count: " + warehouse.getProductCount());
+			}
+		}
+		
+		System.out.println("Company output count:" + company.getOutputWarehouse().getProductCount());
+		System.out.println("===============");
+		
+	}
+
+	public void beginTour() {
     	List<ProductPriceQuantity> productBuyOffers = new ArrayList<ProductPriceQuantity>();
     	List<ProductPriceQuantity> productSellOffers = new ArrayList<ProductPriceQuantity>();
     	
@@ -80,7 +115,6 @@ public class Engine {
     			ProductPriceQuantity buyOffer = new ProductPriceQuantity(company.getId(), productId, price,quantity);
     			company.getBuyingHistoryByProductId(warehouse.getProductId()).addProposedOffer(price, quantity);
     			
-    			
     			offers.add(buyOffer);
     		}
     	}
@@ -89,6 +123,16 @@ public class Engine {
 	}
     
     public void endTour() {
+    	List<ProductPriceQuantity> productSellOffers = new ArrayList<ProductPriceQuantity>();
+        for (ProductPriceQuantity sellOffer : offersService.getProductSellOffers()) {
+        	if (sellOffer.getQuantity() == 0) {
+        		sellOfferRejected(sellOffer);
+        	} else {
+        		productSellOffers.add(sellOffer);
+        	}
+        }
+        offersService.setProductSellOffers(productSellOffers);
+        
         sellProductsForMarket();
         sellProductsForCompanies();
         
@@ -170,9 +214,6 @@ public class Engine {
         	if (sellOffer.getPrice() > demand.getPrice()) {
         		sellOfferRejected(sellOffer);
         	}
-        	else if (sellOffer.getQuantity() == 0) {
-        		sellOfferRejected(sellOffer);
-        	}
         	else {
                 serveSellToMarket(sellOffer, sellOffer.getQuantity());
         	}
@@ -183,6 +224,12 @@ public class Engine {
     	// randomizujemy oferty kupna
         List<ProductPriceQuantity> productBuyOffers = offersService.getProductBuyOffers();
         Collections.shuffle(productBuyOffers);
+        
+        
+        
+        
+        
+        
         
         // i próbujemy po kolei ka¿d¹ spe³niæ
         for (ProductPriceQuantity buyOffer : productBuyOffers) {
@@ -210,8 +257,6 @@ public class Engine {
         	
         	
         	if (sellOffer.getPrice() > buyOffer.getPrice()) {
-        		sellOfferRejected(sellOffer);
-        	} else if (sellOffer.getQuantity() == 0) {
         		sellOfferRejected(sellOffer);
         	}
         	// je¿eli nasze potrzeby jeszcze nie s¹ spe³nione
@@ -296,6 +341,6 @@ public class Engine {
     private void addBuyTranscation(ProductPriceQuantity buyOffer, int quantity, double payedPrice) {
     	Company company = env.getCompanyById(buyOffer.getCompanyId());
     	History history = company.getBuyingHistoryByProductId(buyOffer.getProductsId());
-    	history.addRealTransaction(payedPrice, quantity);
+    	history.addRealTransaction(payedPrice/quantity, quantity); // mean price we payed for everything
     }
 }

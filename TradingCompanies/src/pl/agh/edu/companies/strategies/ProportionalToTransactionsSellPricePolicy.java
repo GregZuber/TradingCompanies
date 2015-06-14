@@ -24,62 +24,62 @@ public class ProportionalToTransactionsSellPricePolicy implements IPricePolicy {
 				.GetHistoryByProductId(productId);
 		List<ProductPriceQuantity> transactions = company.getSellingHistory().getRealTransactions();
 		List<ProductPriceQuantity> proposedOffers = company.getSellingHistory().getProposedOffers();
-		double lastPrice = prices.getLastNonZero();
+		double newPrice = prices.getLastNonZero();
 
 		// ostatnia transakcja jest uznana za udan¹, je¿eli cokolwiek kupiliœmy
 		// chyba, ¿e nie chcieliœmy nic kupowaæ
 		boolean lastSuccesful = false;
 		
 		if (transactions.size() > 0) {
-			lastSuccesful = transactions.get(transactions.size() - 1)
-					.getQuantity() > 0;
-			lastSuccesful |= proposedOffers.get(proposedOffers.size() - 1)
-					.getQuantity() > 0;
-					// bierzemy okno z ostatnich 6 transakcji i liczymy jaki jest stosunek
-					// udanych do nieudanych transakcji
-
-					int successfulTransactions = 0;
-					int failedTransactions = 0;
-					int skippedTransactions = 0;
-					int j = 0;
-					for (int i = proposedOffers.size() - 1; i < 0; i--) {
-						if (transactions.get(i).getQuantity() > 0) {
-							successfulTransactions++;
-						} else if ((transactions.get(i).getQuantity() == 0)
-								&& (proposedOffers.get(i).getQuantity() == 0)) {
-							skippedTransactions++;
-						} else {
-							failedTransactions++;
-						}
-						
-						// bierzemy maksymalnie windowSize elementowe okno
-						j++;
-						if (j == this.windowSize) {
-							break;
-						}
-					}
-					
-					// pozostaw cenê kupna taka jak jest albo obni¿
-					if (lastSuccesful) {
-						if (successfulTransactions >= this.windowSize/2) {
-							return lastPrice*(1+ (successfulTransactions - 2)*this.successfulBonus);
-						}
-						else {
-							return lastPrice;
-						}
-					} 
-					// podwy¿sz cenê kupna albo zostaw tak¹ jaka jest
-					else{
-						if (failedTransactions > this.windowSize/2) {
-							return lastPrice*(1 - (failedTransactions - this.windowSize/2)*this.failedPenalty);
-						}
-						else {
-							return lastPrice;
-						}
-					}
+			if (transactions.size() <= this.windowSize) {
+				newPrice = this.getPriceFromWindow(transactions,proposedOffers, newPrice);
+			}
+			else {
+				newPrice = this.getPriceFromWindow(
+						transactions.subList(transactions.size() - windowSize, transactions.size()),
+						proposedOffers.subList(proposedOffers.size() - windowSize, proposedOffers.size())
+						, newPrice);
+				
+			}
 		}
 
-		return lastPrice;
+		return newPrice;
+	}
+	
+	private double getPriceFromWindow(
+			List<ProductPriceQuantity> transactions, 
+			List<ProductPriceQuantity> offers, 
+			double lastPrice) {
+		
+		int okTransactions = 0;
+		int failedTransactions = 0;
+		
+		for (int i = 0;i<transactions.size();i++) {
+			if (transactions.get(i).getQuantity() == offers.get(i).getProductsId()) {
+				okTransactions++;
+			} else {
+				failedTransactions++;
+			}
+		}
+		
+		boolean lastOk = transactions.get(transactions.size()-1).getQuantity() == offers.get(transactions.size()-1).getQuantity();
+		
+		if (lastOk) {
+			if (okTransactions > 1) {
+				return lastPrice * (1 + successfulBonus);
+			}
+			else {
+				return lastPrice;
+			}
+		}
+		else {
+			if (failedTransactions > 1) {
+				return lastPrice * (1 - failedPenalty);
+			}
+			else {
+				return lastPrice;
+			}
+		}
 	}
 
 }

@@ -52,14 +52,12 @@ public class ProportionalToTransactionsBuyPricePolicy implements IPricePolicy {
 
 		int successfulTransactions = 0;
 		int failedTransactions = 0;
-		int skippedTransactions = 0;
 		int j = 0;
-		for (int i = proposedOffers.size() - 1; i < 0; i--) {
+		for (int i = proposedOffers.size() - 1; i >= 0; i--) {
 			if (transactions.get(i).getQuantity() > 0) {
 				successfulTransactions++;
-			} else if ((transactions.get(i).getQuantity() == 0)
-					&& (proposedOffers.get(i).getQuantity() == 0)) {
-				skippedTransactions++;
+			} else if (transactions.get(i).getQuantity() == proposedOffers.get(i).getQuantity()) {
+				successfulTransactions++;
 			} else {
 				failedTransactions++;
 			}
@@ -73,7 +71,7 @@ public class ProportionalToTransactionsBuyPricePolicy implements IPricePolicy {
 		
 		// pozostaw cenê kupna taka jak jest albo obni¿
 		if (lastSuccesful) {
-			if (successfulTransactions >= this.windowSize/2) {
+			if (successfulTransactions > 1) {
 				return lastPrice*(1- (successfulTransactions - 2)*this.successfulBonus);
 			}
 			else {
@@ -82,7 +80,7 @@ public class ProportionalToTransactionsBuyPricePolicy implements IPricePolicy {
 		} 
 		// podwy¿sz cenê kupna albo zostaw tak¹ jaka jest
 		else{
-			if (failedTransactions > this.windowSize/2) {
+			if (failedTransactions > 1) {
 				return lastPrice*(1 + (failedTransactions - this.windowSize/2)*this.failedPenalty);
 			}
 			else {

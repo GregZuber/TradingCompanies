@@ -1,5 +1,7 @@
 package pl.agh.edu.companies.entitiy;
 
+import java.util.Random;
+
 public class ProductPriceQuantity implements Comparable<ProductPriceQuantity>{
 	private int companyId;
     private int productsId;
